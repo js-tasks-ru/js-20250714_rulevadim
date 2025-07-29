@@ -17,6 +17,7 @@ export default class ColumnChart {
     this.formatHeading = formatHeading;
 
     this.element = this.createElement();
+    this.updateLoadingState();
   }
 
   createLinkTemplate() {
@@ -45,6 +46,21 @@ export default class ColumnChart {
       .join('');
   }
 
+  updateChartTemplate() {
+    const element = this.element.querySelector('[data-element=body]');
+    element.innerHTML = this.createChartTemplate();
+  }
+
+  updateLoadingState() {
+    const isLoading = !this.data.length;
+
+    if (isLoading) {
+      this.element.classList.add('column-chart_loading');
+    } else {
+      this.element.classList.remove('column-chart_loading');
+    }
+  }
+
   createTemplate() {
     return `
       <div class="column-chart" style="--chart-height: ${this.chartHeight}">
@@ -71,16 +87,13 @@ export default class ColumnChart {
 
     const {firstElementChild} = element;
 
-    if (!this.data.length) {
-      firstElementChild.classList.add('column-chart_loading');
-    }
-
     return firstElementChild;
   }
 
   update(newData) {
     this.data = newData;
-    this.element = this.createElement();
+    this.updateChartTemplate();
+    this.updateLoadingState();
   }
 
   remove() {
