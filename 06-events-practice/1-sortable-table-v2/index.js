@@ -22,13 +22,7 @@ export default class SortableTableEvents extends SortableTable {
     }
 
     const sortField = head.dataset.id;
-
-    let sortOrder;
-    if (head.dataset.order) {
-      sortOrder = head.dataset.order === 'desc' ? 'asc' : 'desc';
-    } else {
-      sortOrder = 'desc';
-    }
+    const sortOrder = head.dataset.order === 'desc' ? 'asc' : 'desc';
 
     this.sort(sortField, sortOrder);
   }
